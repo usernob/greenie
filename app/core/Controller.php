@@ -1,10 +1,5 @@
 <?php
 
-interface controller_index
-{
-    public function index();
-}
-
 class Controller
 {
     public function view(string $view,  array $data = [], string $route = "index"): void
@@ -16,7 +11,6 @@ class Controller
             echo "View for " . $filename . " Not Found";
         }
     }
-    // add the model
     public function model(string $model)
     {
         $filename = "../app/models/" . $model . ".php";
@@ -30,6 +24,7 @@ class Controller
 
     public function page_404()
     {
-        $this->view("404");
+        $data["title"] = "404 - Not Found";
+        $this->view("404", $data);
     }
 }

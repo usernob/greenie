@@ -12,7 +12,7 @@
                 <?php if (isset($_SESSION["username_exist"])) : ?>
 
                     <div class="bg-red-500 w-full p-2 rounded-md">
-                        <p class="text-white font-main text-center">username already exist</p>
+                        <p class="text-white font-main text-center">username sudah digunakan</p>
                     </div>
 
                 <?php unset($_SESSION["username_exist"]);

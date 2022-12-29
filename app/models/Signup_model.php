@@ -21,7 +21,7 @@ class Signup_model extends Model
     }
     public function select($username, $email)
     {
-        $this->db->query("SELECT id FROM user WHERE username=:username AND email=:email");
+        $this->db->query("SELECT id_user FROM user WHERE username=:username AND email=:email");
         $this->db->bind("username", $username);
         $this->db->bind("email", $email);
         return $this->db->single();

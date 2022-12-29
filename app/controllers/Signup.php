@@ -1,6 +1,6 @@
 <?php
 
-class Signup extends Controller implements controller_index
+class Signup extends Controller
 {
     public function index()
     {
@@ -23,8 +23,8 @@ class Signup extends Controller implements controller_index
             return header("location:" . BASE_URL . "/signup");
         }
         $res = $model->newSignup($_POST);
-        if (isset($res["id"])) {
-            $_SESSION["_id"] = $res["id"];
+        if (isset($res["id_user"])) {
+            $_SESSION["_id"] = $res["id_user"];
             return header("location:" . BASE_URL . "/home");
         }
     }

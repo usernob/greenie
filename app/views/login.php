@@ -12,7 +12,7 @@
                 <?php if (isset($_SESSION["error"])) : ?>
 
                     <div class="bg-red-500 w-full p-2 rounded-md">
-                        <p class="text-white font-main text-center">password incorect</p>
+                        <p class="text-white font-main text-center">password salah</p>
                     </div>
 
                 <?php unset($_SESSION["error"]);
@@ -20,7 +20,7 @@
                 <?php if (isset($_SESSION["email_has_signup"])) : ?>
 
                     <div class="bg-main w-full p-2 rounded-md">
-                        <p class="font-main text-center">your email already signup please login for continue</p>
+                        <p class="font-main text-center">email sudah terdaftar, silahkan login untuk melanjutkan</p>
                     </div>
 
                 <?php unset($_SESSION["email_has_signup"]);
@@ -41,7 +41,7 @@
                         <input type="password" value='<?= isset($_SESSION["password"]) ? $_SESSION["password"] : "" ?>' placeholder="Masukkan Password" name="password" id="password" class="w-full form-input rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 placeholder:font-main" required>
                     </div>
                 </label>
-                <a href="<?= BASE_URL ?>/signup" class="font-main lg:text-md text-slate-500 hover:text-main">Belum punya akun? singup sekarang</a>
+                <a href="<?= BASE_URL ?>/signup" class="font-main lg:text-md text-slate-500 hover:text-main">Belum punya akun? signup sekarang</a>
                 <input type="submit" class="px-10 py-2 bg-main hover:bg-green-600 rounded-md text-slate-100 font-main" value="Login">
             </div>
             <?php

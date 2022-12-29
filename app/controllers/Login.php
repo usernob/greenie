@@ -1,17 +1,20 @@
 <?php
 
-class Login extends Controller implements controller_index
+class Login extends Controller
 {
     public function index()
     {
         $data["title"] = "Greenie - Login";
+        if (isset($_SESSION["_id"])) {
+            unset($_SESSION["_id"]);
+        }
         $this->view("login", $data);
     }
     public function validate()
     {
         $res = $this->model("Login_model")->checkLogin($_POST);
         if (password_verify($_POST["password"], $res["password"])) {
-            $_SESSION["_id"] = $res["id"];
+            $_SESSION["_id"] = $res["id_user"];
             header("location:" . BASE_URL . "/home");
             return;
         } else {
