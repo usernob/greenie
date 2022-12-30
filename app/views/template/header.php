@@ -8,6 +8,9 @@ if (!empty($data["db"]["user"]["avatar"])) {
 }
 
 $base64 = 'data:image/' . $type . ';base64,' . base64_encode($image);
+if (!isset($_SESSION["query"])) {
+    $_SESSION["query"] = "";
+}
 ?>
 
 <header class="bg-main w-full z-50 h-fit sticky-top font-main">
@@ -18,16 +21,18 @@ $base64 = 'data:image/' . $type . ';base64,' . base64_encode($image);
             </a>
         </div>
         <div class="flex-grow my-2">
-            <div class="w-full rounded-full flex items-center bg-white">
-                <input type="text" name="search" id="search" placeholder="Mau cari apa hari ini?" class="py-2 px-4 rounded-l-full flex-grow placeholder:font-main focus:border-green-500">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 m-2 mr-4 text-slate-600">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                </svg>
-            </div>
+            <form class="w-full rounded-full flex items-center bg-white" method="GET" action="<?= BASE_URL ?>/home/search/">
+                <input type="text" name="q" id="q" placeholder="Mau cari apa hari ini?" class="py-2 px-4 rounded-l-full flex-grow placeholder:font-main focus:border-green-500" value="<?= $_SESSION["query"] ?>">
+                <button type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 m-2 mr-4 text-slate-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </button>
+            </form>
         </div>
         <div class="flex items-center gap-4">
             <a href="<?= BASE_URL ?>/profile">
-                <img src="<?= $base64; ?>" alt="img-profile" class="rounded-full w-9 h-9 object-cover object-center">
+                <img src="<?= $base64; ?>" alt="img-profile" class="rounded-full w-9 h-9 object-cover object-center bg-white">
             </a>
             <div class="relative">
                 <a href="<?= BASE_URL ?>/cart/">

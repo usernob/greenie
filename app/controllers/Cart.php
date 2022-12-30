@@ -17,7 +17,7 @@ class Cart extends Controller
     public function add($id_barang)
     {
         if (!isset($_SESSION["_id"])) {
-            return header("location:" . BASE_URL . "/login");
+            return http_response_code(301);
         }
         $cart_model = $this->model("Cart_model");
         try {

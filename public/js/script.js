@@ -26,6 +26,16 @@ if (eye != null && passwordField != null) {
 
 // home/detail
 
+let barang_viewport = document.getElementById("barang-viewport");
+if (barang_viewport != null) {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function () {
+        barang_viewport.innerHTML = this.responseText;
+    }
+    xmlhttp.open("GET", barang_viewport.dataset.target);
+    xmlhttp.send();
+}
+
 let listImageProduct = document.querySelectorAll("#img-product-list");
 if (listImageProduct != null) {
     for (const imageProduct of listImageProduct) {
@@ -58,6 +68,9 @@ if (btnAddToCart != null) {
             if (this.readyState == 4 && this.status == 200) {
                 cartIcon.classList.remove('invisible');
                 modal(this.responseText);
+            }
+            if (this.readyState == 4 && this.status == 301) {
+                window.location.href = btnAddToCart.dataset.target.replace(new RegExp("\/cart\/add\/.*"), "/login");
             }
         };
         xhttp.open("GET", btnAddToCart.dataset.target);
@@ -158,6 +171,54 @@ if (checkboxList != null) {
                 updateTotalHarga(i, false);
             }
             countSelected.innerHTML = countSelected.dataset.count;
+        })
+    }
+}
+
+
+let pp = document.getElementById("profile-picture");
+let input_foto = document.querySelector("#profile-picture+label>input#foto")
+if (pp != null && input_foto != null) {
+    input_foto.addEventListener("change", function (e) {
+        if (input_foto.files.length > 0) {
+            console.log(input_foto.files);
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                pp.src = reader.result;
+            }
+
+            if (input_foto.files[0]) {
+                reader.readAsDataURL(input_foto.files[0]);
+            } else {
+                pp.src = "";
+            }
+        }
+    })
+}
+
+
+let new_pw = document.getElementById("new_pw");
+let confirm_pw = document.getElementById("confirm_pw");
+let error = document.getElementById("error_message");
+if (new_pw != null && confirm_pw != null) {
+    confirm_pw.addEventListener("input", function (e) {
+        if (confirm_pw.value == new_pw.value) {
+            error.classList.add("hidden");
+            confirm_pw.classList.remove("outline-red-500");
+        }
+        else {
+            error.classList.remove("hidden");
+            error.innerHTML = "password tidak sama"
+            confirm_pw.classList.add("outline-red-500");
+        }
+    })
+}
+
+let listAddress = document.querySelectorAll("#selected_addrs");
+if (selected_addrs[0] != null) {
+    for (const selected_addrs of listAddress) {
+        selected_addrs.addEventListener("change", function () {
+            console.log(this.dataset.id_address);
         })
     }
 }

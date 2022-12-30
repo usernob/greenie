@@ -10,7 +10,7 @@ class Profile_model extends Model
                         user.email,
                         user.no_hp,
                         cart.id_cart 
-                        FROM user INNER JOIN cart ON user.id_user=:id AND cart.id_user = :id LIMIT 1");
+                        FROM user LEFT JOIN cart ON cart.id_user = user.id_user WHERE user.id_user = :id LIMIT 1");
         $this->db->bind("id", $id);
         return $this->db->single();
     }
@@ -31,5 +31,26 @@ class Profile_model extends Model
         $this->db->bind("avatar", $image, PDO::PARAM_LOB);
         $this->db->execute();
         return $this->db->rowCount();
+    }
+    public function getPassword($id)
+    {
+        $this->db->query("SELECT password FROM user WHERE id_user = :id");
+        $this->db->bind("id", $id);
+        return $this->db->single();
+    }
+    public function updatePassword($id, $post)
+    {
+        $new = password_hash($post["new_pw"], PASSWORD_DEFAULT);
+        $this->db->query("UPDATE user SET password = :new WHERE id_user = :id");
+        $this->db->bind("new", $new);
+        $this->db->bind("id", $id);
+        return $this->db->execute();
+    }
+
+    public function getAddress($id)
+    {
+        $this->db->query('SELECT address.*, user.id_address as selected FROM `address` INNER JOIN user ON address.id_user = :id AND user.id_user = :id');
+        $this->db->bind("id", $id);
+        return $this->db->resultSet();
     }
 }

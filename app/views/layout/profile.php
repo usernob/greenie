@@ -54,12 +54,12 @@
                 <?php foreach ($lists as $list) :
                     $selectted = $list["link"] == BASE_URL . str_replace(ROOT_URL, "", $_SERVER["REQUEST_URI"]) ?>
 
-                    <div class="flex items-center group hover:bg-main w-full flex-1 px-4 py-2 rounded-sm gap-2 <?= $selectted ? "bg-main" : "" ?>">
+                    <a href="<?= $list["link"] ?>" class="flex items-center group hover:bg-main w-full flex-1 px-4 py-2 rounded-sm gap-2 <?= $selectted ? "bg-main" : "" ?>">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1" stroke="currentColor" class="w-6 h-6 group-hover:text-white <?= $selectted ? "text-white" : "" ?>">
                             <?= $list["icon"] ?>
                         </svg>
-                        <a href="<?= $list["link"] ?>" class="group-hover:text-white <?= $selectted ? "text-white" : "" ?>"><?= $list["text"] ?></a>
-                    </div>
+                        <p class="group-hover:text-white <?= $selectted ? "text-white" : "" ?>"><?= $list["text"] ?></p>
+                    </a>
 
                 <?php endforeach ?>
             </div>

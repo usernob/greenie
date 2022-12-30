@@ -2,7 +2,8 @@
 module.exports = {
     content: [
         "app/views/**/*.php",
-        "./node_modules/tw-elements/dist/js/**/*.js"
+        "./node_modules/tw-elements/dist/js/**/*.js",
+        "public/**/*.{php,js}"
     ],
     theme: {
         container: {
