@@ -21,7 +21,7 @@ class Cart extends Controller
         }
         $cart_model = $this->model("Cart_model");
         try {
-            $cart_model->addCart($id_barang[0], $_SESSION["_id"]);
+            $cart_model->addCart($id_barang, $_SESSION["_id"]);
             $data = "success";
         } catch (\PDOException $e) {
             $data = $e->getMessage();

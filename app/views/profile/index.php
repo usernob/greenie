@@ -1,6 +1,4 @@
-<div>
-    <h1 class="p-4 text-2xl font-semibold">Informasi Akun</h1>
-</div>
+<h1 class="p-4 text-2xl font-semibold">Informasi Akun</h1>
 <form class="flex items-center w-full mb-8 gap-4" method="POST" action="<?= BASE_URL . "/profile/update" ?>" enctype="multipart/form-data">
     <div class="flex flex-col items-start gap-4 flex-1 p-4">
         <?php $user = $data["db"]["user"]; ?>

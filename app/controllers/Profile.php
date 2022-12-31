@@ -64,5 +64,26 @@ class Profile extends Controller
     }
     public function add_address()
     {
+        $this->getUserAndCart($data);
+        $this->view("layout/profile", $data, __FUNCTION__);
+    }
+    public function add_address_handler()
+    {
+        $res = $this->model("Profile_model")->addUserAddress();
+        if ($res > 0) {
+            header("location:" . BASE_URL . "/profile/address");
+        }
+    }
+    public function change_address($id_address = null)
+    {
+        if ($id_address == null) {
+            return http_response_code(400);
+        }
+        $res = $this->model("Profile_model")->changeUserAddress($id_address, $_SESSION["_id"]);
+        if ($res > 0) {
+            return http_response_code(200);
+        } else {
+            return http_response_code(500);
+        }
     }
 }

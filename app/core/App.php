@@ -17,6 +17,7 @@ class App
             $this->controller = $url[0];
             unset($url[0]);
         } else {
+            http_response_code(400);
             header("location:" . BASE_URL . "/home/404-page");
         }
         require_once "../app/controllers/" . $this->controller . ".php";
@@ -33,7 +34,7 @@ class App
         if (!empty($url)) {
             $this->params = array_values($url);
         }
-        call_user_func([$this->controller, $this->method], $this->params);
+        call_user_func([$this->controller, $this->method], ...$this->params);
     }
     public function parseURL()
     {

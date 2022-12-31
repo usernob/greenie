@@ -53,4 +53,15 @@ class Profile_model extends Model
         $this->db->bind("id", $id);
         return $this->db->resultSet();
     }
+    public function changeUserAddress($id_address, $id_user)
+    {
+        $this->db->query("UPDATE user SET id_address = :id_address WHERE id_user = :id_user");
+        $this->db->bind("id_address", $id_address);
+        $this->db->bind("id_user", $id_user);
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
+    public function addUserAddress($id, $post)
+    {
+    }
 }

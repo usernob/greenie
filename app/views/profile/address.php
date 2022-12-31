@@ -1,6 +1,6 @@
 <div class="flex justify-between">
     <h1 class="p-4 text-2xl font-semibold">Alamat Pengiriman</h1>
-    <a href="<? BASE_URL ?>/profile/add_address" class="px-8 py-4 bg-main hover:bg-green-600 rounded-sm text-white flex items-center justify-center gap-2 h-fit">
+    <a href="<?= BASE_URL ?>/profile/add_address" class="px-8 py-3 bg-main hover:bg-green-600 rounded-sm text-white flex items-center justify-center gap-2 h-fit">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
@@ -17,7 +17,7 @@
                     <a href="" class="text-lg font-medium"><?= $address["remarks"] ?></a>
                     <p><?= $address["detail"] ?></p>
                 </div>
-                <input type="radio" name="selected_addrs" id="selected_addrs" class="w-5 h-5" <?= $address["selected"] == $address["id_address"] ? "checked" : "" ?> data-id_address="<?= $address["id_address"] ?>" />
+                <input type="radio" name="selected_addrs" id="selected_addrs" class="w-5 h-5" <?= $address["selected"] == $address["id_address"] ? "checked" : "" ?> data-target="<?= BASE_URL . "/profile/change_address/" . $address["id_address"] ?>" />
             </div>
         <?php endforeach ?>
     <?php else : ?>

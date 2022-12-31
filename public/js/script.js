@@ -215,10 +215,65 @@ if (new_pw != null && confirm_pw != null) {
 }
 
 let listAddress = document.querySelectorAll("#selected_addrs");
-if (selected_addrs[0] != null) {
+if (listAddress.length > 0) {
     for (const selected_addrs of listAddress) {
         selected_addrs.addEventListener("change", function () {
-            console.log(this.dataset.id_address);
+            if (this.checked) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function (e) {
+                    if (this.readyState === 4 && this.status === 500) {
+                        modal("error change address");
+                    }
+                }
+                xhttp.open("GET", this.dataset.target);
+                xhttp.send();
+            }
         })
     }
+}
+
+const base_url = "https://usernob.github.io/api-wilayah-indonesia/api";
+let provinsi = document.querySelector("select#provinsi");
+let kabupaten = document.querySelector("select#kabupaten");
+let kecamatan = document.querySelector("select#kecamatan");
+let desa = document.querySelector("select#desa");
+
+function create_element(xhttp, component) {
+    component.innerHTML = "<option value></option>";
+    for (const items of JSON.parse(xhttp.responseText)) {
+        let option = document.createElement("option");
+        option.value = items.id;
+        option.innerHTML = items.name;
+        component.appendChild(option);
+        component.removeAttribute("disabled");
+    };
+}
+
+async function init_data(url, component) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function (e) {
+        if (this.readyState === 4 && this.status === 200) {
+            create_element(this, component);
+        }
+    };
+    xhttp.open("GET", url);
+    xhttp.send();
+}
+
+if (provinsi != null) {
+    init_data(base_url + "/provinces.json", provinsi);
+    provinsi.addEventListener("change", function (e) {
+        init_data(`${base_url}/regencies/${this.value}.json`, kabupaten);
+    })
+    kabupaten.addEventListener("change", function (e) {
+        init_data(`${base_url}/districts/${this.value}.json`, kecamatan);
+    })
+    kecamatan.addEventListener("change", function (e) {
+        init_data(`${base_url}/villages/${this.value}.json`, desa);
+    })
+    desa.addEventListener("change", function (e) {
+        document.querySelector("input#alamat").value = [desa, kecamatan, kabupaten, provinsi].map(function (e) {
+            return e.querySelector(`option[value="${e.value}"]`).textContent;
+        }).join(", ");
+    })
 }

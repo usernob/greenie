@@ -52,7 +52,7 @@ class Home_model extends Model
     }
     public function getUserAndCartById($id)
     {
-        $this->db->query("SELECT user.avatar, cart.id_cart FROM user INNER JOIN cart ON user.id_user=:id AND cart.id_user = :id LIMIT 1");
+        $this->db->query("SELECT user.avatar, cart.id_cart FROM user LEFT JOIN cart ON cart.id_user = user.id_user WHERE user.id_user = :id LIMIT 1");
         $this->db->bind("id", $id);
         return $this->db->single();
     }
