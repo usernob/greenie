@@ -9,10 +9,9 @@ class Cart extends Controller
             return header("location:" . BASE_URL . "/login");
         }
         $data["title"] = "Keranjang - Greenie";
-        $res = $cart_model->getUserAndCartById($_SESSION["_id"]);
-        $data["db"]["user"] = $res;
+        $data["db"]["user"] = $cart_model->getUserAndCartById($_SESSION["_id"]);
         $data["db"]["barang"] = $cart_model->getAllBarangInCart($_SESSION["_id"]);
-        $this->view("layout/cart", $data);
+        return $this->view("layout/cart", $data);
     }
     public function add($id_barang)
     {
@@ -29,8 +28,24 @@ class Cart extends Controller
         echo $data;
     }
 
+    public function delete($id_barang)
+    {
+        $this->model("Cart_model")->deleteCart($id_barang, $_SESSION["_id"]);
+        return header("location:" . BASE_URL . "/cart");
+    }
+
     public function request()
     {
-        var_dump($_POST);
+        $cart_model = $this->model("Cart_model");
+        $list_id_cart = [];
+        $data["db"]["user"] = $cart_model->getUserAndCartById($_SESSION["_id"]);
+        for ($i = 0; $i < count($_POST); $i++) {
+            if (isset($_POST["checkbox-" . $i])) {
+                array_push($list_id_cart, $_POST["checkbox-" . $i]);
+            }
+        }
+        $data["db"]["cart"] = $cart_model->getSelectedCart($list_id_cart);
+        $data["db"]["address"];
+        return $this->view("layout/cart", $data, "request");
     }
 }

@@ -15,6 +15,14 @@ class Login extends Controller
         $res = $this->model("Login_model")->checkLogin($_POST);
         if (password_verify($_POST["password"], $res["password"])) {
             $_SESSION["_id"] = $res["id_user"];
+            if (isset($res["id_admin"])) {
+                $_SESSION["admin"] = true;
+            }
+
+            if (isset($res["id_penjual"])) {
+                $_SESSION["penjual"] = true;
+            }
+
             header("location:" . BASE_URL . "/home");
             return;
         } else {

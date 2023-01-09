@@ -2,15 +2,15 @@
 
 class Database
 {
-    private PDO $dbh;
-    private PDOStatement $stmt;
+    public $dbh;
+    public $stmt;
 
     public function __construct()
     {
         $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME;
 
         $option = [
-            PDO::ATTR_PERSISTENT => true,
+            // PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ];
 
@@ -47,9 +47,9 @@ class Database
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    public function execute()
+    public function execute($params = null)
     {
-        $this->stmt->execute();
+        $this->stmt->execute($params);
     }
 
     public function resultSet()
@@ -67,5 +67,11 @@ class Database
     public function rowCount()
     {
         return $this->stmt->rowCount();
+    }
+
+    public function __destruct()
+    {
+        $this->dbh = null;
+        $this->stmt = null;
     }
 }

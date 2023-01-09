@@ -4,10 +4,6 @@
 @tailwind utilities;
 
 
-* {
-    @apply outline-1 outline-main;
-}
-
 /* width */
 ::-webkit-scrollbar {
     width: 6px;

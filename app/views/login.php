@@ -3,9 +3,9 @@
 
 <?php require_once "template/head.php" ?>
 
-<body class="bg-main">
+<body class="bg-main font-main">
     <div class="container">
-        <form action="<?= BASE_URL ?>/login/validate" method="post" class="sm:mx-20 md:mx-32 lg:mx-40 xl:mx-72 my-10 rounded-md shadow-2xl bg-white">
+        <form action="<?= BASE_URL ?>/login/validate" method="post" class="sm:mx-20 md:mx-32 lg:mx-40 xl:mx-72 my-10 rounded-md shadow-2xl bg-slate-100">
             <div class="flex justify-center items-center flex-col gap-4 p-6 px-8">
                 <div class="logo">Login To Greenie</div>
 
@@ -28,7 +28,7 @@
 
                 <label class="w-full">
                     <span class="font-main block mb-1">Email</span>
-                    <input type="email" value='<?= isset($_SESSION["email"]) ? $_SESSION["email"] : "" ?>' placeholder="Masukkan Alamat Email" name="email" id="email" class="w-full form-input rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 placeholder:font-main" required>
+                    <input type="email" value='<?= isset($_SESSION["email"]) ? $_SESSION["email"] : "" ?>' placeholder="Masukkan Alamat Email" name="email" id="email" class="w-full py-2 px-4 rounded-md outline outline-1 outline-slate-700 bg-slate-100 focus:outline-2" required>
                 </label>
                 <label class="w-full">
                     <span fo class="font-main block mb-1">Password</span>
@@ -38,7 +38,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
                             </svg>
                         </div>
-                        <input type="password" value='<?= isset($_SESSION["password"]) ? $_SESSION["password"] : "" ?>' placeholder="Masukkan Password" name="password" id="password" class="w-full form-input rounded-md border-gray-300 shadow-sm focus:border-green-300 focus:ring focus:ring-green-200 focus:ring-opacity-50 placeholder:font-main" required>
+                        <input type="password" value='<?= isset($_SESSION["password"]) ? $_SESSION["password"] : "" ?>' placeholder="Masukkan Password" name="password" id="password" class="w-full py-2 px-4 rounded-md outline outline-1 outline-slate-700 bg-slate-100 focus:outline-2" required>
                     </div>
                 </label>
                 <a href="<?= BASE_URL ?>/signup" class="font-main lg:text-md text-slate-500 hover:text-main">Belum punya akun? signup sekarang</a>

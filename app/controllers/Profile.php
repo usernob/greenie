@@ -58,7 +58,7 @@ class Profile extends Controller
         return header("location:" . BASE_URL . "/profile/password");
     }
 
-    public function address($id_address = null)
+    public function address()
     {
         $profile_model = $this->model("Profile_model");
         $this->getUserAndCart($data);
@@ -94,9 +94,8 @@ class Profile extends Controller
         try {
             $this->model("Profile_model")->deleteAddress($id_address);
         } catch (PDOException $e) {
-            echo $e;
             $_SESSION["message"] = "tidak bisa menghapus alamat default";
         }
-        // return header("location:" . BASE_URL . "/profile/address");
+        return header("location:" . BASE_URL . "/profile/address");
     }
 }

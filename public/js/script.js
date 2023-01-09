@@ -51,11 +51,20 @@ if (listImageProduct != null) {
     }
 }
 
-function modal(message, display = "flex") {
-    console.log(message);
+function modal(message, display = "flex", isElement = false) {
     let elm = document.getElementById("modal");
-    let content = document.getElementById("modal-content")
-    content.innerHTML = message;
+    let viewport = document.getElementById("viewport_modal");
+    let content = document.createElement("p");
+    if (isElement) {
+        content = message;
+    } else {
+        content.innerText = message;
+        content.classList.add("text-lg");
+    }
+    for (let i = 0; i < viewport.childElementCount; i++) {
+        viewport.removeChild(viewport.childNodes[i]);
+    }
+    viewport.appendChild(content);
     elm.style.display = display;
 }
 
@@ -91,7 +100,9 @@ let priceAfter = document.querySelectorAll("h2#price-after");
 let priceAfterInput = document.querySelectorAll("h2#price-after+input");
 let total = document.querySelector("#total-all-selected");
 let totalInput = document.querySelector("#total-all-selected+input");
-
+let checkboxList = document.querySelectorAll("input#checkbox-produk");
+let checkboxAll = document.querySelector("input#select-all");
+let countSelected = document.querySelector("span#count-selected");
 
 function updateHarga(i) {
     let newPrice = priceBefore[i].dataset.price * qty[i].value;
@@ -100,7 +111,7 @@ function updateHarga(i) {
     priceAfterInput[i].value = newPrice;
 }
 
-function updateTotalHarga(i, checked = undefined) {
+function updateTotalHarga() {
     let element = document.querySelectorAll("input#checkbox-produk:checked+div+h2+div+h2#price-after");
     let sum = 0;
     for (const elm of element) {
@@ -108,14 +119,29 @@ function updateTotalHarga(i, checked = undefined) {
     }
     total.innerHTML = formatter.format(sum);
     totalInput.value = sum;
-    if (checked) {
-        qty[i].setAttribute("name", `jumlah-${i + 1}`);
-        priceAfterInput[i].setAttribute("name", `harga-${i + 1}`);
-    }
-    if (checked = false) {
-        qty[i].removeAttribute("name");
-        priceAfterInput[i].removeAttribute("name");
-    }
+}
+
+function confirmDeleteFromCart(i) {
+    let parentElm = document.createElement("div");
+    let p = document.createElement("p");
+    let btnDiv = document.createElement('div');
+    let btnOk = document.createElement("a");
+    let btnCancel = document.createElement("button");
+    parentElm.classList.add("flex", "flex-col", "items-center", "w-full", "gap-4");
+    p.innerText = "Apakah kamu yakin akan menghapus item ini dari keranjang?";
+    p.classList.add("text-lg");
+    btnDiv.classList.add("flex", "gap-2", "justify-center");
+    btnOk.innerText = "ok";
+    btnOk.classList.add("px-4", "py-2", "bg-main", "text-slate-100", "rounded-md");
+    btnOk.setAttribute("id", "deleteFromCart");
+    btnOk.setAttribute("href", checkboxList[i].dataset.target);
+    btnCancel.innerText = "Cancel";
+    btnCancel.classList.add("px-4", "py-2", "bg-slate-900", "text-slate-100", "rounded-md");
+    btnDiv.appendChild(btnOk);
+    btnDiv.appendChild(btnCancel);
+    parentElm.appendChild(p);
+    parentElm.appendChild(btnDiv);
+    modal(parentElm, "flex", true);
 }
 
 for (let i = 0; i < qty.length; i++) {
@@ -123,24 +149,21 @@ for (let i = 0; i < qty.length; i++) {
         qty_min[i].addEventListener("click", e => {
             if (qty[i].value > 1) {
                 qty[i].value--;
+            } else {
+                confirmDeleteFromCart(i);
             }
             updateHarga(i);
-            updateTotalHarga(i);
+            updateTotalHarga();
         })
         qty_plus[i].addEventListener("click", e => {
             if (qty[i].value < 10) {
                 qty[i].value++;
             }
             updateHarga(i);
-            updateTotalHarga(i);
+            updateTotalHarga();
         })
     }
 }
-
-
-let checkboxList = document.querySelectorAll("input#checkbox-produk");
-let checkboxAll = document.querySelector("input#select-all");
-let countSelected = document.querySelector("span#count-selected");
 
 if (checkboxAll != null) {
     checkboxAll.addEventListener("change", function () {
@@ -149,12 +172,12 @@ if (checkboxAll != null) {
                 checkboxList[i].checked = true;
                 countSelected.innerHTML = checkboxList.length;
                 countSelected.dataset.count = checkboxList.length;
-                updateTotalHarga(i, true);
+                updateTotalHarga();
             } else {
                 checkboxList[i].checked = false;
                 countSelected.innerHTML = 0;
                 countSelected.dataset.count = 0;
-                updateTotalHarga(i, false);
+                updateTotalHarga();
             }
         }
     })
@@ -164,17 +187,29 @@ if (checkboxList != null) {
         checkboxList[i].addEventListener("change", function () {
             if (this.checked) {
                 countSelected.dataset.count++;
-                updateTotalHarga(i, true);
+                updateTotalHarga();
             } else {
                 countSelected.dataset.count--;
                 checkboxAll.checked = false;
-                updateTotalHarga(i, false);
+                updateTotalHarga();
             }
             countSelected.innerHTML = countSelected.dataset.count;
         })
     }
 }
 
+let formSubmitCart = document.querySelector("#form-cart");
+if (formSubmitCart != null) {
+    formSubmitCart.addEventListener("submit", function (e) {
+        let checkboxListChecked = document.querySelectorAll("input#checkbox-produk:checked");
+        for (let i = 0; i < checkboxListChecked.length; i++) {
+            const element = checkboxListChecked[i];
+            let inputQty = element.nextElementSibling.nextElementSibling.nextElementSibling.querySelector("input#qty-val");
+            inputQty.setAttribute("name", "jumlah-" + i);
+            element.setAttribute("name", "checkbox-" + i);
+        }
+    })
+}
 
 let pp = document.getElementById("profile-picture");
 let input_foto = document.querySelector("#profile-picture+label>input#foto")
