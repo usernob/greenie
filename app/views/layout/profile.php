@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php require_once "../app/views/template/head.php"; ?>
+<?php require_once "app/views/template/head.php"; ?>
 
 <body class="bg-slate-300 font-main text-slate-900">
 
-    <?php require_once "../app/views/template/header.php"; ?>
+    <?php require_once "app/views/template/header.php"; ?>
 
     <main class="my-2 min-h-[80vh]">
         <div class="container flex gap-4 justify-center">
@@ -63,14 +63,14 @@
 
                 <?php endforeach ?>
             </div>
-            <?php require_once "../app/views/template/modal.php"; ?>
+            <?php require_once "app/views/template/modal.php"; ?>
             <div class="my-2 p-4 rounded-md bg-slate-100 shadow-lg flex-1">
-                <?php require_once "../app/views/profile/" . $route . ".php"; ?>
+                <?php require_once "app/views/profile/" . $route . ".php"; ?>
             </div>
         </div>
     </main>
 
-    <?php require_once "../app/views/template/footer.php"; ?>
+    <?php require_once "app/views/template/footer.php"; ?>
 </body>
 
 </html>

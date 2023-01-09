@@ -237,12 +237,14 @@ let provinsi = document.querySelector("select#provinsi");
 let kabupaten = document.querySelector("select#kabupaten");
 let kecamatan = document.querySelector("select#kecamatan");
 let desa = document.querySelector("select#desa");
+let dusun = document.querySelector("input#dusun");
 
 function create_element(xhttp, component) {
     component.innerHTML = "<option value></option>";
     for (const items of JSON.parse(xhttp.responseText)) {
         let option = document.createElement("option");
-        option.value = items.id;
+        option.value = items.name;
+        option.dataset.id = items.id;
         option.innerHTML = items.name;
         component.appendChild(option);
         component.removeAttribute("disabled");
@@ -260,20 +262,31 @@ async function init_data(url, component) {
     xhttp.send();
 }
 
+function forceKeyPressUppercase(e) {
+    let el = e.target;
+    let charInput = e.keyCode;
+    if ((charInput >= 97) && (charInput <= 122)) { // lowercase
+        if (!e.ctrlKey && !e.metaKey && !e.altKey) { // no modifier key
+            let newChar = charInput - 32;
+            let start = el.selectionStart;
+            let end = el.selectionEnd;
+            el.value = el.value.substring(0, start) + String.fromCharCode(newChar) + el.value.substring(end);
+            el.setSelectionRange(start + 1, start + 1);
+            e.preventDefault();
+        }
+    }
+};
+
 if (provinsi != null) {
     init_data(base_url + "/provinces.json", provinsi);
     provinsi.addEventListener("change", function (e) {
-        init_data(`${base_url}/regencies/${this.value}.json`, kabupaten);
+        init_data(`${base_url}/regencies/${this.options[this.selectedIndex].dataset.id}.json`, kabupaten);
     })
     kabupaten.addEventListener("change", function (e) {
-        init_data(`${base_url}/districts/${this.value}.json`, kecamatan);
+        init_data(`${base_url}/districts/${this.options[this.selectedIndex].dataset.id}.json`, kecamatan);
     })
     kecamatan.addEventListener("change", function (e) {
-        init_data(`${base_url}/villages/${this.value}.json`, desa);
+        init_data(`${base_url}/villages/${this.options[this.selectedIndex].dataset.id}.json`, desa);
     })
-    desa.addEventListener("change", function (e) {
-        document.querySelector("input#alamat").value = [desa, kecamatan, kabupaten, provinsi].map(function (e) {
-            return e.querySelector(`option[value="${e.value}"]`).textContent;
-        }).join(", ");
-    })
+    dusun.addEventListener("keypress", forceKeyPressUppercase);
 }

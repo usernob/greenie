@@ -8,7 +8,7 @@
 
     <a href="<?= BASE_URL ?>/home/detail/<?= $barang['id_barang'] ?>" class="max-w-md bg-slate-50 shadow-[0_1px_30px_-6px_rgb(0_0_0/0.2),_0_2px_10px_-10px_rgb(0_0_0/0.2)] rounded-md hover:outline hover:outline-2 hover:outline-main">
         <img <?php
-                $image = file_get_contents(BASE_URL . "/assets/dummy-image.jpg");
+                $image = file_get_contents(BASE_URL . "/public/assets/dummy-image.jpg");
                 if (!empty($barang["foto"])) {
                     $image = $barang["foto"];
                 }

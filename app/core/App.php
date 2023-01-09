@@ -13,14 +13,14 @@ class App
             $url[0] = $this->controller;
         }
         $url[0] = ucfirst($url[0]);
-        if (file_exists("../app/controllers/" . $url[0] . ".php")) {
+        if (file_exists("app/controllers/" . $url[0] . ".php")) {
             $this->controller = $url[0];
             unset($url[0]);
         } else {
             http_response_code(400);
             header("location:" . BASE_URL . "/home/404-page");
         }
-        require_once "../app/controllers/" . $this->controller . ".php";
+        require_once "app/controllers/" . $this->controller . ".php";
         $this->controller = new $this->controller;
         if (isset($url[1])) {
             if (method_exists($this->controller, $url[1]) && $url[1] != "view" && $url[1] != "model") {

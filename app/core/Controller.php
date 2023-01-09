@@ -4,7 +4,7 @@ class Controller
 {
     public function view(string $view,  array $data = [], string $route = "index"): void
     {
-        $filename = "../app/views/" . $view . ".php";
+        $filename = "app/views/" . $view . ".php";
         if (file_exists($filename)) {
             require_once $filename;
         } else {
@@ -13,7 +13,7 @@ class Controller
     }
     public function model(string $model)
     {
-        $filename = "../app/models/" . $model . ".php";
+        $filename = "app/models/" . $model . ".php";
         if (file_exists($filename)) {
             require_once $filename;
             return new $model;

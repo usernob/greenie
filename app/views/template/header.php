@@ -1,6 +1,6 @@
 <?php
 
-$path = BASE_URL . "/assets/dummy-user.png";
+$path = BASE_URL . "/public/assets/dummy-user.png";
 $type = pathinfo($path, PATHINFO_EXTENSION);
 $image = file_get_contents($path);
 if (!empty($data["db"]["user"]["avatar"])) {
@@ -17,7 +17,7 @@ if (!isset($_SESSION["query"])) {
     <div class="flex items-center gap-10 container py-4 justify-center">
         <div>
             <a href="<?= BASE_URL ?>/home">
-                <img src="<?= BASE_URL ?>/assets/logo-white.png" class="w-32">
+                <img src="<?= BASE_URL ?>/public/assets/logo-white.png" class="w-32">
             </a>
         </div>
         <div class="flex-grow my-2">

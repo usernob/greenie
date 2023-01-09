@@ -18,7 +18,7 @@
                         <?php else : ?>
 
                             <div class="carousel-item active relative float-left w-96 h-96" id="img-product">
-                                <img src="data:image/jpg;base64,<?php $image = file_get_contents(BASE_URL . "/assets/dummy-image.jpg");
+                                <img src="data:image/jpg;base64,<?php $image = file_get_contents(BASE_URL . "/public/assets/dummy-image.jpg");
                                                                 echo base64_encode($image); ?>" class="block h-96 object-cover object-center" />
                             </div>
 
@@ -47,7 +47,7 @@
                     <?php else : ?>
 
                         <div id="img-product-list">
-                            <img src="data:image/jpg;base64,<?php $image = file_get_contents(BASE_URL . "/assets/dummy-image.jpg");
+                            <img src="data:image/jpg;base64,<?php $image = file_get_contents(BASE_URL . "/public/assets/dummy-image.jpg");
                                                             echo base64_encode($image); ?>" class="w-16 h-16 hover:outline hover:outline-2 hover:outline-main rounded-sm object-cover object-center">
                         </div>
 
@@ -76,7 +76,7 @@
         </div>
         <div class="p-8 bg-slate-100 rounded-md shadow-md flex gap-8 items-center">
             <?php
-            $avatar = file_get_contents(BASE_URL . "/assets/dummy-user.png");
+            $avatar = file_get_contents(BASE_URL . "/public/assets/dummy-user.png");
             if (!empty($barang["avatar"])) {
                 $avatar = $barang["avatar"];
             }

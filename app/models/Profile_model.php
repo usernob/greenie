@@ -49,7 +49,7 @@ class Profile_model extends Model
 
     public function getAddress($id)
     {
-        $this->db->query('SELECT address.*, user.id_address as selected FROM `address` INNER JOIN user ON address.id_user = :id AND user.id_user = :id');
+        $this->db->query('SELECT address.*, user.id_address AS selected FROM `address` INNER JOIN user ON address.id_user = :id AND user.id_user = :id');
         $this->db->bind("id", $id);
         return $this->db->resultSet();
     }
@@ -63,5 +63,37 @@ class Profile_model extends Model
     }
     public function addUserAddress($id, $post)
     {
+        $name = [
+            "remarks",
+            "kode_pos",
+            "detail",
+            "provinsi",
+            "kabupaten",
+            "kecamatan",
+            "desa",
+            "dusun",
+            "rt",
+            "rw"
+        ];
+        $tmp_values = array_map(function ($a) {
+            return ":" .  $a;
+        }, $name);
+        $table = join(", ", $name);
+        $values = join(", ", $tmp_values);
+        echo $values;
+        echo $table;
+        $this->db->query("INSERT INTO address ($table, id_user) VALUES ($values, :id_user)");
+        $this->db->bind("id_user", $id);
+        foreach ($name as $index) {
+            $this->db->bind($index, $post[$index]);
+        }
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
+    public function deleteAddress($id_address)
+    {
+        $this->db->query("DELETE FROM address WHERE id_address = :id_address");
+        $this->db->bind("id_address", $id_address);
+        return $this->db->execute();
     }
 }
