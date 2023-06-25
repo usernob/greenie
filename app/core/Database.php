@@ -47,9 +47,9 @@ class Database
         $this->stmt->bindValue($param, $value, $type);
     }
 
-    public function execute($params = null)
+    public function execute()
     {
-        $this->stmt->execute($params);
+        $this->stmt->execute();
     }
 
     public function resultSet()

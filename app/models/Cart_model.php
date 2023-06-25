@@ -61,4 +61,48 @@ class Cart_model extends Model
         $this->db->dbh->commit();
         return $this->db->resultSet();
     }
+    public function getUserActiveAddress($id_user)
+    {
+        $this->db->query("SELECT address.* FROM user LEFT JOIN address ON user.id_address = address.id_address WHERE user.id_user = :id_user");
+        $this->db->bind("id_user", $id_user);
+        return $this->db->single();
+    }
+    public function getMetodePembayaran()
+    {
+        $this->db->query("SELECT * FROM m_pembayaran");
+        return $this->db->resultSet();
+    }
+    public function addToOrder($post)
+    {
+        $this->db->dbh->beginTransaction();
+        $this->db->query("INSERT INTO tb_order(status_order) VALUES(0)");
+        $this->db->execute();
+        $id = $this->db->dbh->lastInsertId();
+        $id_cart_list = array_filter($post, function ($key) {
+            return (preg_match("/^checkbox/i", $key));
+        }, ARRAY_FILTER_USE_KEY);
+        $list_jumlah = array_filter($post, function ($key) {
+            return (preg_match("/^jumlah/i", $key));
+        }, ARRAY_FILTER_USE_KEY);
+        function placeholder($len)
+        {
+            $pl = "";
+            for ($i = 0; $i < $len; $i++) {
+                $pl .= " WHEN id_cart = :checkbox" . $i . " THEN :jumlah" . $i;
+            }
+            return $pl;
+        }
+        print_r("UPDATE cart 
+                            SET jumlah = (CASE" . placeholder(count($id_cart_list)) . " END), 
+                            id_order = :id 
+                            WHERE id_cart IN (:" . join(", :", array_keys($id_cart_list)) . ")");
+        $this->db->query("UPDATE cart 
+                            SET jumlah = (CASE" . placeholder(count($id_cart_list)) . " END), 
+                            id_order = :id 
+                            WHERE id_cart IN (:" . join(", :", array_keys($id_cart_list)) . ")");
+        $post["id"] = $id;
+        print_r($post);
+        $this->db->stmt->execute($post);
+        $this->db->dbh->commit();
+    }
 }

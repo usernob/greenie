@@ -45,7 +45,14 @@ class Cart extends Controller
             }
         }
         $data["db"]["cart"] = $cart_model->getSelectedCart($list_id_cart);
-        $data["db"]["address"];
+        $data["db"]["address"] = $cart_model->getUserActiveAddress($_SESSION["_id"]);
+        $data["db"]["pembayaran"] = $cart_model->getMetodePembayaran();
         return $this->view("layout/cart", $data, "request");
+    }
+    public function order()
+    {
+        print_r($_POST);
+        $this->model("Cart_model")->addToOrder($_POST);
+        // return header("location:" . BASE_URL . "/cart");
     }
 }
